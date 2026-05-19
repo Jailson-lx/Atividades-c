@@ -1,1 +1,17 @@
+#include <stdio.h>
 
+int main() {
+    int L, D, K, P;
+    int pedagio, valort;
+
+    scanf("%d %d", &L, &D);
+    scanf("%d %d", &K, &P);
+
+    pedagio = L / D;
+    valort = (L * K) + (pedagio * P);
+
+    printf("%d\n", valort);
+
+    return 0;
+
+}
