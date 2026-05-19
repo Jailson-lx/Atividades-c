@@ -1,1 +1,13 @@
+#include <stdio.h>
 
+int main() {
+    double F1, F2, resultado;
+
+    scanf("%lf %lf", &F1, &F2);
+
+    resultado = ((1 + F1 / 100.0) * (1 + F2 / 100.0) - 1) * 100.0;
+
+    printf("%.6lf\n", resultado);
+
+    return 0;
+}
