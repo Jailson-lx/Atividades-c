@@ -1,1 +1,16 @@
+#include <stdio.h>
 
+int main() {
+    long long L, N;
+    long long maior, resultado;
+
+    scanf("%lld %lld", &L, &N);
+
+    maior = L - N + 1;
+
+    resultado = (N - 1) + (maior * maior);
+
+    printf("%lld\n", resultado);
+
+    return 0;
+}
