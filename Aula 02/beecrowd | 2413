@@ -1,1 +1,14 @@
+#include <stdio.h>
 
+int main() {
+    int t, linki, linkii;
+
+    scanf("%d", &t);
+    
+    linkii = t * 2;
+    linki = linkii * 2;
+
+    printf("%d\n", linki);
+
+    return 0;
+}
