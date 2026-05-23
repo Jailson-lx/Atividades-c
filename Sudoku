@@ -1,7 +1,5 @@
 #include <stdio.h>
 
-#include <stdio.h>
-
 #define TAM 9
 
 // Mostra o Sudoku
