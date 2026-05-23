@@ -1,0 +1,188 @@
+#include <stdio.h>
+
+#include <stdio.h>
+
+#define TAM 9
+
+// Mostra o Sudoku
+void mostrar(int sudoku[TAM][TAM], int original[TAM][TAM])
+{
+    int i, j;
+
+    printf("\n");
+
+    for(i = 0; i < TAM; i++)
+    {
+        for(j = 0; j < TAM; j++)
+        {
+            // Se for número original, mostra entre []
+            if(original[i][j] != 0)
+            {
+                printf("[%d] ", sudoku[i][j]);
+            }
+            else
+            {
+                printf(" %d  ", sudoku[i][j]);
+            }
+
+            // Linha vertical
+            if((j + 1) % 3 == 0 && j != 8)
+            {
+                printf("| ");
+            }
+        }
+
+        printf("\n");
+
+        // Linha horizontal
+        if((i + 1) % 3 == 0 && i != 8)
+        {
+            printf("-------------------------------------\n");
+        }
+    }
+}
+
+// Verifica linha
+int verificarLinha(int sudoku[TAM][TAM], int linha, int numero)
+{
+    int coluna;
+
+    for(coluna = 0; coluna < TAM; coluna++)
+    {
+        if(sudoku[linha][coluna] == numero)
+        {
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+// Verifica coluna
+int verificarColuna(int sudoku[TAM][TAM], int coluna, int numero)
+{
+    int linha;
+
+    for(linha = 0; linha < TAM; linha++)
+    {
+        if(sudoku[linha][coluna] == numero)
+        {
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+// Verifica 3x3
+int verificarBloco(int sudoku[TAM][TAM], int linha, int coluna, int numero)
+{
+    int i, j;
+
+    int inicioLinha = linha - (linha % 3);
+    int inicioColuna = coluna - (coluna % 3);
+
+    for(i = 0; i < 3; i++)
+    {
+        for(j = 0; j < 3; j++)
+        {
+            if(sudoku[inicioLinha + i][inicioColuna + j] == numero)
+            {
+                return 0;
+            }
+        }
+    }
+
+    return 1;
+}
+
+// Verifica se pode colocar
+int podeColocar(int sudoku[TAM][TAM], int linha, int coluna, int numero)
+{
+    if(verificarLinha(sudoku, linha, numero) &&
+       verificarColuna(sudoku, coluna, numero) &&
+       verificarBloco(sudoku, linha, coluna, numero))
+    {
+        return 1;
+    }
+
+    return 0;
+}
+
+// Resolver Sudoku
+int resolver(int sudoku[TAM][TAM])
+{
+    int linha, coluna, numero;
+
+    for(linha = 0; linha < TAM; linha++)
+    {
+        for(coluna = 0; coluna < TAM; coluna++)
+        {
+            // Achou espaço vazio
+            if(sudoku[linha][coluna] == 0)
+            {
+                // Testa números de 1 até 9
+                for(numero = 1; numero <= 9; numero++)
+                {
+                    if(podeColocar(sudoku, linha, coluna, numero))
+                    {
+                        sudoku[linha][coluna] = numero;
+
+                        // Continua resolvendo
+                        if(resolver(sudoku))
+                        {
+                            return 1;
+                        }
+
+                        // Volta atrás
+                        sudoku[linha][coluna] = 0;
+                    }
+                }
+
+                return 0;
+            }
+        }
+    }
+
+    return 1;
+}
+
+int main()
+{
+    int sudoku[TAM][TAM];
+    int original[TAM][TAM];
+
+    char linha[20];
+
+    int i, j;
+
+    printf("Digite as 9 linhas do Sudoku:\n");
+
+    // Ler Sudoku
+    for(i = 0; i < TAM; i++)
+    {
+        scanf("%s", linha);
+
+        for(j = 0; j < TAM; j++)
+        {
+            sudoku[i][j] = linha[j] - '0';
+
+            // Guarda original
+            original[i][j] = sudoku[i][j];
+        }
+    }
+
+    // Resolver
+    if(resolver(sudoku))
+    {
+        printf("\nSudoku Resolvido:\n");
+
+        mostrar(sudoku, original);
+    }
+    else
+    {
+        printf("\nNao foi possivel resolver.\n");
+    }
+
+    return 0;
+}
